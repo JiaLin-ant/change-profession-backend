@@ -23,7 +23,7 @@ class handler(BaseHTTPRequestHandler):
 
         # 初始化 Groq 客户端
         client = Groq(
-            api_key=os.getenv("GROQ_API_KEY"),  # 从环境变量中读取 API Key
+            api_key=os.getenv("GROQ_API_KEY"),  # 从环境变量中读取API Key
         )
 
         # 调用 Groq API

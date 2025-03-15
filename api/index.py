@@ -42,16 +42,14 @@ class handler(BaseHTTPRequestHandler):
             # 收集完整响应
             response_content = chat_completion.choices[0].message.content
 
-            # 返回结果
+            # 返回纯文本结果
             self.send_response(200)
-            self.send_header('Content-type', 'application/json')
+            self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            self.wfile.write(json.dumps({
-                "response": response_content
-            }).encode('utf-8'))
+            self.wfile.write(response_content.encode('utf-8'))
         except Exception as e:
             self.send_response(500)
-            self.send_header('Content-type', 'application/json')
+            self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+            self.wfile.write(str(e).encode('utf-8'))
         return

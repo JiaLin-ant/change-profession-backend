@@ -36,7 +36,7 @@ class handler(BaseHTTPRequestHandler):
                     }
                 ],
                 model="llama-3.3-70b-versatile",
-                stream=False  # 确保关闭流式模式
+                stream=True  # 开启流式模式
             )
 
             # 收集完整响应

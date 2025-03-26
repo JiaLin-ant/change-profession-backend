@@ -9,8 +9,8 @@ fi
 # 提示词
 PROMPT="$1"
 
-# API URL（需要更改为您的实际部署URL）
-API_URL="http://localhost:3000/api/image"
+# API URL（更新为根路径）
+API_URL="https://change-profession-backend.vercel.app/api"
 
 # 生成时间戳作为文件名
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")

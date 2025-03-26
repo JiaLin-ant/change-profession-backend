@@ -1,7 +1,6 @@
 from http.server import BaseHTTPRequestHandler
 import os
 import json
-from groq import Groq
 import requests
 from datetime import datetime
 import base64
@@ -17,12 +16,8 @@ class handler(BaseHTTPRequestHandler):
         # 解析 JSON 数据
         try:
             data = json.loads(post_data)
-            
-            # 根据路径决定处理逻辑
-            if self.path == "/api/image":
-                self.handle_image_generation(data)
-            else:
-                self.handle_text_generation(data)
+            # 处理图像生成请求
+            self.handle_image_generation(data)
                 
         except json.JSONDecodeError:
             self.send_response(400)
@@ -31,41 +26,6 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"error": "Invalid JSON"}).encode('utf-8'))
             return
 
-    def handle_text_generation(self, data):
-        user_message = data.get("messages", [{}])[0].get("content", "")
-        
-        # 初始化 Groq 客户端
-        client = Groq(
-            api_key=os.getenv("GROQ_API_KEY"),  # 从环境变量中读取API Key
-        )
-
-        # 调用 Groq API
-        try:
-            chat_completion = client.chat.completions.create(
-                messages=[
-                    {
-                        "role": "user",
-                        "content": user_message,
-                    }
-                ],
-                model="llama-3.3-70b-versatile",
-                stream=False  # 关闭流式模式
-            )
-
-            # 收集完整响应
-            response_content = chat_completion.choices[0].message.content
-
-            # 返回纯文本结果
-            self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(response_content.encode('utf-8'))
-        except Exception as e:
-            self.send_response(500)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(str(e).encode('utf-8'))
-    
     def handle_image_generation(self, data):
         # 从请求中获取提示词
         prompt = data.get("prompt", "")
@@ -114,8 +74,8 @@ class handler(BaseHTTPRequestHandler):
     
     def generate_image(self, prompt):
         # API 配置
-        account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
-        api_key = os.getenv("CLOUDFLARE_API_KEY")
+        account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID", "5dff61c28ee86b9ca69d881fb1cfa207")
+        api_key = os.getenv("CLOUDFLARE_API_KEY", "2UR7AkGIEyeqIYoTbr1NFw58Z1aiJNNlvrMkGgSs")
         api_url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0"
 
         # 设置请求头

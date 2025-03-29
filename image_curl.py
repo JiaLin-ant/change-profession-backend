@@ -21,7 +21,7 @@ def generate_and_save_image(prompt, output_dir='.'):
     os.makedirs(output_dir, exist_ok=True)
     
     # API URL（本地开发时用 localhost，部署后用实际域名）
-    api_url = "https://change-profession-backend.vercel.app/api"  # 更新为根路径
+    api_url = "https://www.covertsonline.com/api"  # 更新为根路径
     
     try:
         # 发送 POST 请求

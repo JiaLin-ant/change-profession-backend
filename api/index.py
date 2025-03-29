@@ -88,9 +88,9 @@ class handler(BaseHTTPRequestHandler):
         data = {
             "prompt": prompt,
             "negative_prompt": "ugly, tiling, poorly drawn face, deformed face, deformed eyes, deformed mouth, deformed hair, deformed body, deformed hands, deformed fingers, deformed toes, deformed ears, deformed tail, deformed antenna, deformed horns, deformed claws, deformed wings",
-            "width": 1024,
-            "height": 1024,
-            "num_steps": 10,
+            "width": 512,
+            "height": 512,
+            "num_steps": 5,
         }
 
         try:
